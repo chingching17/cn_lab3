@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: ghcr.io/f64081169/backend:latest
+          ports:
+            - containerPort: 8888
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          env:
+            - name: DB_HOST
+              value: db-clusterip
+          

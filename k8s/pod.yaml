@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-pod
+spec:
+  containers:
+    - name: frontend
+      image: ghcr.io/chingching17/frontend:latest    # 需改成自己的 frontend Image
+      ports:
+        - containerPort: 5173
+      env:
+        - name: DB_HOST
+          value: mongodb
+    - name: backend
+      image: ghcr.io/chingching17/backend:latest    # 需改成自己的 backend Image
+      ports:
+        - containerPort: 8888
+      env:
+        - name: DB_HOST
+          value: mongodb
+    - name: mongodb
+      image: mongo
+      ports:
+        - containerPort: 27017
+      env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: root
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: rootpassword
