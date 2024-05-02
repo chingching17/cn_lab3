@@ -18,10 +18,11 @@ services:
       context: ./frontend
     ports:
       - "5173:5173"
-    # links:
-    #   - backend
+    # environment:
+    #   DB_HOST: backend
     environment:
-      DB_HOST: backend
+      - NODE_ENV=production   # 這裡可能需要設置你的應用程式的環境模式為生產模式
+      - PROXY_TARGET=http://localhost:8888
     depends_on:
       - backend
 
