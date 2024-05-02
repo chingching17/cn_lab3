@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: ghcr.io/f64081169/frontend:latest
+          image: ghcr.io/chingching17/frontend:latest
           ports:
             - containerPort: 80
           resources:
