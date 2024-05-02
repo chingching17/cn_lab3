@@ -10,6 +10,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: app-clusterip 
+                name: frontend-clusterip
                 port:
-                  number: 80
+                  number: 5173
