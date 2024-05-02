@@ -21,8 +21,7 @@ services:
     # environment:
     #   DB_HOST: backend
     environment:
-      - NODE_ENV=production   # 這裡可能需要設置你的應用程式的環境模式為生產模式
-      - PROXY_TARGET=http://localhost:8888
+      - BACKEND_URL=http://backend:8888 # connect to backend docker port 8888
     depends_on:
       - backend
 
