@@ -1,0 +1,2 @@
+ghcr.io/chingching17/backend 
+ghcr.io/chingching17/frontend 
