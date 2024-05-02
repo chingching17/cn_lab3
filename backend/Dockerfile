@@ -8,27 +8,32 @@ COPY src ./src
 COPY tsconfig.json ./
 
 # ci ~= install all
-RUN npm ci && npm run build
-
-# Use the official Node.js 21 image
-FROM docker.io/library/node:21-alpine3.18 AS RUNNER
-
-# Set the working directory in the container
-WORKDIR /backend
-
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
-
-# Install dependencies
 RUN npm ci
-# RUN npm run build
+RUN npm run build
 
-# Copy the rest of the application code
-COPY --from=BUILDER /backend/dist ./
-# COPY . .
+# multistage dockerfile
+FROM docker.io/library/node:21-alpine3.18 AS RUNNER
 
 EXPOSE 8888
 
-# Command to run the application
-CMD ["npm", "run", "dev"]
-# CMD [ "node", "/backend/index.js"]
+WORKDIR /backend
+
+COPY package.json ./
+COPY package-lock.json ./
+
+# Copy from previous stage
+COPY --from=BUILDER /backend/dist ./
+
+# docker run -d -p 27017:27017 mongo
+# Install package without dev 
+# Less 
+RUN npm ci
+#--omit=dev
+ENV PORT=8888
+ENV HOST=0.0.0.0
+# docker inspect mongodb | grep IPAddress
+ENV MONGO_CONNECTION_STRING=mongodb://db:27017/myMernApp
+
+#CMD ["env"]
+#CMD ["ls", "types"]
+CMD [ "node", "/backend/index.js"]
