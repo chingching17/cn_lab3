@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build: backend/
+      # context: .
+      # dockerfile: backend/Dockerfile
+    ports:
+      - "8888:8888"
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://mongo:27017/myMernApp
+    links:
+      - mongo
+    depends_on:
+      - mongo
+
+  frontend:
+    build: frontend/
+      # context: .
+      # dockerfile: frontend/Dockerfile
+    ports:
+      - "5173:5173"
+    links:
+      - backend
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
