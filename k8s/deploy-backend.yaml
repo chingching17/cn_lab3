@@ -20,11 +20,12 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 10Mi
+              memory: 128Mi
             limits:
               cpu: 200m
-              memory: 200Mi
+              memory: 256Mi
           env:
-            - name: DB_HOST
-              value: db-clusterip
-          
+            - name: MONGO_CONNECTION_IP
+              value: mongodb-service # cluster IP like 10.0.123.4
+            - name: MONGO_CONNECTION_STRING
+              value: "mongodb://$(MONGO_CONNECTION_IP)/myMernApp"
