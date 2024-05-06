@@ -20,6 +20,12 @@ spec:
           volumeMounts:
             - name: mongodb-persistent-storage
               mountPath: /data/db
+          livenessProbe:
+            exec:
+              command:
+                - /bin/mongo --port 27017 --eval "rs.status()"
+            initialDelaySeconds: 20
+            periodSeconds: 5
       volumes:
         - name: mongodb-persistent-storage
           persistentVolumeClaim:
