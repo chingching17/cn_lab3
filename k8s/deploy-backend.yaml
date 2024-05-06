@@ -29,3 +29,11 @@ spec:
               value: mongodb-service # cluster IP like 10.0.123.4
             - name: MONGO_CONNECTION_STRING
               value: "mongodb://$(MONGO_CONNECTION_IP)/myMernApp"
+          livenessProbe:
+            httpGet:
+              path: /api/v1/todos
+              scheme: HTTP
+              host: localhost
+              port: 8888
+            initialDelaySeconds: 20
+            periodSeconds: 5

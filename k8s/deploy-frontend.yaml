@@ -30,3 +30,11 @@ spec:
               value: backend-clusterip
             - name: BACKEND_URL
               value: "http://$(BACKEND_IP):8888"
+          livenessProbe:
+            httpGet:
+              path: /
+              scheme: HTTP
+              host: localhost
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 5
