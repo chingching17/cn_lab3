@@ -33,7 +33,6 @@ spec:
             httpGet:
               path: /api/v1/todos
               scheme: HTTP
-              host: localhost
               port: 8888
             initialDelaySeconds: 20
             periodSeconds: 5
