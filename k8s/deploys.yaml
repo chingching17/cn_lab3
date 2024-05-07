@@ -74,7 +74,6 @@ spec:
             httpGet:
               path: /api/v1/todos
               scheme: HTTP
-              host: localhost
               port: 8888
             initialDelaySeconds: 20
             periodSeconds: 5
@@ -102,9 +101,8 @@ spec:
             - name: mongodb-persistent-storage
               mountPath: /data/db
           livenessProbe:
-            exec:
-              command:
-                - /bin/mongo --port 27017 --eval "rs.status()"
+            tcpSocket:
+              port: 27017
             initialDelaySeconds: 20
             periodSeconds: 5
       volumes:
