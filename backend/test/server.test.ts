@@ -1,5 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import { serverOf } from '../src/server'
+import * as TodoRepo from '../src/repo/todo'
+import { Todo, TodoBody } from '../src/types/todo'
+import { ModifyResult } from 'mongoose'
+import todo from '../src/models/todo'
 
 describe('Server Testing', () => {
   const server = serverOf()
