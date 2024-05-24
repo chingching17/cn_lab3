@@ -9,6 +9,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Set up Node.js
       uses: actions/setup-node@v2
@@ -35,9 +37,9 @@ jobs:
     
     - name: Reset to previous commit to get coverage report
       run: |
-        git log
-        # git chekcout --hard HEAD~1 
-        # npm run coverage > coverage_report.txt
+        # git log
+        git chekcout --hard HEAD~1 
+        npm run coverage > coverage_report.txt
       working-directory: ./backend
 
     - name: Generate previous coverage report
