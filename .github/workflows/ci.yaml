@@ -35,9 +35,9 @@ jobs:
     
     - name: Reset to previous commit to get coverage report
       run: |
-        git log
-        # git reset --hard HEAD~1
-        # npm run coverage > coverage_report.txt
+        # git log
+        git chekcout --hard HEAD~1 
+        npm run coverage > coverage_report.txt
       working-directory: ./backend
 
     - name: Generate previous coverage report
