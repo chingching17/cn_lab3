@@ -60,7 +60,7 @@ jobs:
         report2="./backend/new_coverage/coverage_report.txt"
 
         get_coverage_metrics() {
-          grep -E "| % Stmts | % Branch | % Funcs | % Lines" "$1" | awk '{print $3, $5, $7, $9}'
+          grep -E "\| % Stmts | % Branch | % Funcs | % Lines" "$1" | awk '{print $3, $5, $7, $9}'
         }
         
         compare_coverage_reports() {
