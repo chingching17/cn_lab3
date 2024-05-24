@@ -40,6 +40,10 @@ jobs:
         git reset --hard HEAD~1 
       working-directory: ./backend
 
+    - name: Run tests for previous commit
+      run: npm run test
+      working-directory: ./backend
+
     - name: Generate previous coverage report
       run: npm run coverage > coverage_report.txt
       working-directory: ./backend
