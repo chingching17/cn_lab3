@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: coverage-report
-        path: ./backend/coverage/coverage_report.txt
+        path: ./backend/coverage_report.txt
 
     # - name: Download previous coverage report
     #   uses: actions/download-artifact@v2
