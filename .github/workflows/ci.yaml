@@ -37,16 +37,14 @@ jobs:
     
     - name: Reset to previous commit to get coverage report
       run: |
-        # git log
         git reset --hard HEAD~1 
-        npm run coverage > coverage_report.txt
       working-directory: ./backend
 
     - name: Generate previous coverage report
       run: npm run coverage > coverage_report.txt
       working-directory: ./backend
 
-    - name: Download previous coverage report
+    - name: Download new coverage report
       uses: actions/download-artifact@v2
       with:
         name: coverage-report
@@ -69,7 +67,7 @@ jobs:
           echo "Metrics Report 2: $metrics2"
 
           # 比較每個指標，如果 Report 2 的值更好，則輸出相應的信息
-          if [ "$metrics2" \< "$metrics1" ]; then
+          if [ "$metrics1" \< "$metrics2" ]; then
               echo "Coverage improvement detected!"
           elif [ "$metrics2" == "$metrics1" ]; then
               echo "Coverage remains the same."
