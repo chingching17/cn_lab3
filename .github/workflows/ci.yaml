@@ -45,8 +45,8 @@ jobs:
         sudo apt-get install jq
         # CURRENT_COVERAGE=$(jq '.total.lines.pct' ./backend/coverage/coverage-final.json)
         # PREVIOUS_COVERAGE=$(jq '.total.lines.pct' ./backend/coverage/previous/coverage-final.json)
-        CURRENT_COVERAGE=$(jq '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/coverage-final.json)
-        PREVIOUS_COVERAGE=$(jq '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/previous/coverage-final.json)
+        CURRENT_COVERAGE=$(jq -r '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/coverage-final.json)
+        PREVIOUS_COVERAGE=$(jq -r '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/previous/coverage-final.json)
         echo "Current Coverage: $CURRENT_COVERAGE%"
         echo "Previous Coverage: $PREVIOUS_COVERAGE%"
         if [ "$CURRENT_COVERAGE" -lt "$PREVIOUS_COVERAGE" ]; then
