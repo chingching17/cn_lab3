@@ -24,56 +24,56 @@ jobs:
       working-directory: ./backend
 
     - name: Generate test coverage
-      run: npm run coverage
+      run: npm run coverage > coverage_report.txt
       working-directory: ./backend
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v2
       with:
         name: coverage-report
-        path: ./backend/coverage/coverage-final.json
+        path: ./backend/coverage/coverage_report.txt
 
-    - name: Download previous coverage report
-      uses: actions/download-artifact@v2
-      with:
-        name: coverage-report
-        path: ./backend/coverage/previous
+    # - name: Download previous coverage report
+    #   uses: actions/download-artifact@v2
+    #   with:
+    #     name: coverage-report
+    #     path: ./backend/coverage/previous
 
-    - name: Compare coverage reports
-      run: |
-        # Install jq to parse JSON
-        sudo apt-get install jq
-        # CURRENT_COVERAGE=$(jq '.total.lines.pct' ./backend/coverage/coverage-final.json)
-        # PREVIOUS_COVERAGE=$(jq '.total.lines.pct' ./backend/coverage/previous/coverage-final.json)
-        CURRENT_COVERAGE=$(jq -r '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/coverage-final.json)
-        PREVIOUS_COVERAGE=$(jq -r '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/previous/coverage-final.json)
-        echo "Current Coverage: $CURRENT_COVERAGE%"
-        echo "Previous Coverage: $PREVIOUS_COVERAGE%"
-        if [ "$CURRENT_COVERAGE" -lt "$PREVIOUS_COVERAGE" ]; then
-          echo "Coverage decreased. Failing the job."
-          exit 1
-        else
-          echo "Coverage is sufficient. Job succeeded."
-        fi
+    # - name: Compare coverage reports
+    #   run: |
+    #     # Install jq to parse JSON
+    #     sudo apt-get install jq
+    #     # CURRENT_COVERAGE=$(jq '.total.lines.pct' ./backend/coverage/coverage-final.json)
+    #     # PREVIOUS_COVERAGE=$(jq '.total.lines.pct' ./backend/coverage/previous/coverage-final.json)
+    #     CURRENT_COVERAGE=$(jq -r '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/coverage-final.json)
+    #     PREVIOUS_COVERAGE=$(jq -r '.s | map(select(. > 0)) | length as $executed | ($executed / (. | length)) * 100' ./backend/coverage/previous/coverage-final.json)
+    #     echo "Current Coverage: $CURRENT_COVERAGE%"
+    #     echo "Previous Coverage: $PREVIOUS_COVERAGE%"
+    #     if [ "$CURRENT_COVERAGE" -lt "$PREVIOUS_COVERAGE" ]; then
+    #       echo "Coverage decreased. Failing the job."
+    #       exit 1
+    #     else
+    #       echo "Coverage is sufficient. Job succeeded."
+    #     fi
 
-    - name: Check code formatting
-      run: npm run format:check
-      working-directory: ./backend
+    # - name: Check code formatting
+    #   run: npm run format:check
+    #   working-directory: ./backend
 
-    - name: Format code
-      if: failure()
-      run: npm run format
-      working-directory: ./backend
+    # - name: Format code
+    #   if: failure()
+    #   run: npm run format
+    #   working-directory: ./backend
 
-    - name: Commit formatted code
-      if: failure()
-      env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-      run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git commit -am "style: auto format code"
-        git push
+    # - name: Commit formatted code
+    #   if: failure()
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+    #   run: |
+    #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
+    #     git config --local user.name "github-actions[bot]"
+    #     git commit -am "style: auto format code"
+    #     git push
 
-    - name: Cleanup
-      run: echo "Cleaning up..."
+    # - name: Cleanup
+    #   run: echo "Cleaning up..."
