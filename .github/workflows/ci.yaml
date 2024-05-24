@@ -70,10 +70,14 @@ jobs:
           echo "Metrics Report 1: $metrics1"
           echo "Metrics Report 2: $metrics2"
 
+          # 將 metrics1 和 metrics2 字串轉換為浮點數進行比較
+          metrics1_float=$(echo "$metrics1" | tr -d '%' | awk '{print $1}')
+          metrics2_float=$(echo "$metrics2" | tr -d '%' | awk '{print $1}')
+
           # 比較每個指標，如果 Report 2 的值更好，則輸出相應的信息
-          if [ "$metrics1" \< "$metrics2" ]; then
+          if (( $(echo "$metrics2_float > $metrics1_float" | bc -l) )); then
               echo "Coverage improvement detected!"
-          elif [ "$metrics2" == "$metrics1" ]; then
+          elif (( $(echo "$metrics2_float == $metrics1_float" | bc -l) )); then
               echo "Coverage remains the same."
           else
               echo "Coverage deterioration detected!"
