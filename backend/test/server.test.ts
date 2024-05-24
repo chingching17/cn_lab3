@@ -15,3 +15,17 @@ describe('Server Testing', () => {
     expect(response.statusCode).toBe(200)
   })
 })
+
+// second add
+test('Create a new input, Use deleteTodoById to delete items, It should tell createTodo and deleteTodoById are correct', async () => {
+  const newBody:Todo = {
+    id: "660bf6473f7e41a7451a5105",
+    name: "difjo",
+    description: "jofeioj",
+    status: false
+  };
+
+  const createdTodo = TodoRepo.createTodo(newBody);
+  const delTodo = TodoRepo.deleteTodoById("660bf6473f7e41a7451a5105")
+  expect(createdTodo).toMatchObject(delTodo)
+})
