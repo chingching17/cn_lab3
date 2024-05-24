@@ -40,7 +40,7 @@ jobs:
         path: ./backend/previous_coverage
 
     - name: Compare coverage reports
-      run: 
+      run: |
         report1="./backend/previous_coverage/coverage_report.txt"
         report2="./backend/coverage_report.txt"
 
