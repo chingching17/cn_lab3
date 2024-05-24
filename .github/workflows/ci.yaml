@@ -60,9 +60,9 @@ jobs:
         report2="./backend/new_coverage/coverage_report.txt"
 
         get_coverage_metrics() {
-          grep -E "\| % Stmts | % Branch | % Funcs | % Lines" "$1" | awk '{print $3, $5, $7, $9}'
+          grep -E "\| % Stmts \| % Branch \| % Funcs \| % Lines" "$1" | awk '{print $3, $5, $7, $9}'
         }
-        
+
         compare_coverage_reports() {
           metrics1=$(get_coverage_metrics "$1")
           metrics2=$(get_coverage_metrics "$2")
@@ -70,19 +70,25 @@ jobs:
           echo "Metrics Report 1: $metrics1"
           echo "Metrics Report 2: $metrics2"
 
-          # 將 metrics1 和 metrics2 字串轉換為浮點數進行比較
-          metrics1_float=$(echo "$metrics1" | tr -d '%' | awk '{print $1}')
-          metrics2_float=$(echo "$metrics2" | tr -d '%' | awk '{print $1}')
+          # Convert metrics to arrays for easier comparison
+          metrics1_array=($(echo "$metrics1" | tr -d '%' | awk '{print $1, $2, $3, $4}'))
+          metrics2_array=($(echo "$metrics2" | tr -d '%' | awk '{print $1, $2, $3, $4}'))
 
-          # 比較每個指標，如果 Report 2 的值更好，則輸出相應的信息
-          if (( $(echo "$metrics2_float > $metrics1_float" | bc -l) )); then
-              echo "Coverage improvement detected!"
-          elif (( $(echo "$metrics2_float == $metrics1_float" | bc -l) )); then
-              echo "Coverage remains the same."
-          else
-              echo "Coverage deterioration detected!"
+          improvements=("Statements" "Branches" "Functions" "Lines")
+
+          for i in {0..3}; do
+            metric1=${metrics1_array[$i]}
+            metric2=${metrics2_array[$i]}
+
+            if (( $(echo "$metric2 > $metric1" | bc -l) )); then
+              echo "${improvements[$i]} coverage improvement detected!"
+            elif (( $(echo "$metric2 == $metric1" | bc -l) )); then
+              echo "${improvements[$i]} coverage remains the same."
+            else
+              echo "${improvements[$i]} coverage deterioration detected!"
               exit 1
-          fi
+            fi
+          done
         }
 
         compare_coverage_reports "$report1" "$report2"
