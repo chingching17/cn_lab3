@@ -69,7 +69,7 @@ jobs:
           # 比較每個指標，如果 Report 2 的值更好，則輸出相應的信息
           if [ "$metrics2" \< "$metrics1" ]; then
               echo "Coverage improvement detected!"
-          elif [ "$metrics2" = "$metrics1" ]; then
+          elif [ "$metrics2" == "$metrics1" ]; then
               echo "Coverage remains the same."
           else
               echo "Coverage deterioration detected!"
