@@ -80,7 +80,8 @@ jobs:
   
     -name: Reset to current commit
       run: |
-        run: git reset --hard $GITHUB_SHA
+        echo $GITHUB_SHA
+        git reset --hard $GITHUB_SHA
     
     # - name: Check code formatting
     #   run: npm run format:check
