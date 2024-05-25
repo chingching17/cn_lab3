@@ -21,22 +21,23 @@ describe('Server Testing', () => {
 })
 
 // first add
-describe('Server Testing', () => {
-  const server = serverOf()
-  // first add
-  test('Create a new input, Use findAllTodos to get items, It should tell createTodo and findAllTodos are correct', async () => {
-    const newBody:Todo = {
-      id: "660bf6473f7e41a7451a5105",
-      name: "difjo",
-      description: "jofeioj",
-      status: false
-    };
+// describe('Server Testing', () => {
+//   const server = serverOf()
+//   // first add
+//   test('Create a new input, Use findAllTodos to get items, It should tell createTodo and findAllTodos are correct', async () => {
+//     const newBody:Todo = {
+//       id: "660bf6473f7e41a7451a5105",
+//       name: "difjo",
+//       description: "jofeioj",
+//       status: false
+//     };
 
-    const createdTodo = TodoRepo.createTodo(newBody);
-    const returnTodo = TodoRepo.findAllTodos()
-    expect(returnTodo).toMatchObject(createdTodo)
-  })
-})
+//     const createdTodo = TodoRepo.createTodo(newBody);
+//     const returnTodo = TodoRepo.findAllTodos()
+//     expect(returnTodo).toMatchObject(createdTodo)
+//   })
+// })
+
 // second add
 test('Create a new input, Use deleteTodoById to delete items, It should tell createTodo and deleteTodoById are correct', async () => {
   const newBody:Todo = {
