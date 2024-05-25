@@ -61,7 +61,7 @@ jobs:
 
     - name: Compare previous and new coverage reports
       run: |
-        python -c <<EOF
+        python <<EOF
         import re
         import chardet
 
