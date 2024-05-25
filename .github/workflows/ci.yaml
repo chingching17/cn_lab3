@@ -56,45 +56,45 @@ jobs:
 
     - name: Compare previous and new coverage reports
       run: |
-        python -c "
-          import re
-          import chardet
+        python -c <<EOF
+        import re
+        import chardet
 
-          def get_coverage_metrics(file_path):
-              with open(file_path, 'rb') as file:
-                  raw_data = file.read()
-                  result = chardet.detect(raw_data)
-                  encoding = result['encoding']
-                  
-                  content = raw_data.decode(encoding)
-                  # Adjusted regex to match the table header and extract the relevant percentages
-                  match = re.search(r"All files\s*\|\s*([\d\.]+)\s*\|\s*([\d\.]+)\s*\|\s*([\d\.]+)\s*\|\s*([\d\.]+)", content)
-                  if match:
-                      return list(map(float, match.groups()))
-              return []
+        def get_coverage_metrics(file_path):
+            with open(file_path, 'rb') as file:
+                raw_data = file.read()
+                result = chardet.detect(raw_data)
+                encoding = result['encoding']
+                
+                content = raw_data.decode(encoding)
+                # Adjusted regex to match the table header and extract the relevant percentages
+                match = re.search(r"All files\s*\|\s*([\d\.]+)\s*\|\s*([\d\.]+)\s*\|\s*([\d\.]+)\s*\|\s*([\d\.]+)", content)
+                if match:
+                    return list(map(float, match.groups()))
+            return []
 
-          def compare_coverage_reports(report1, report2):
-              metrics1 = get_coverage_metrics(report1)
-              metrics2 = get_coverage_metrics(report2)
+        def compare_coverage_reports(report1, report2):
+            metrics1 = get_coverage_metrics(report1)
+            metrics2 = get_coverage_metrics(report2)
 
-              print(f"Metrics Report 1: {metrics1}")
-              print(f"Metrics Report 2: {metrics2}")
+            print(f"Metrics Report 1: {metrics1}")
+            print(f"Metrics Report 2: {metrics2}")
 
-              if all(m2 >= m1 for m1, m2 in zip(metrics1, metrics2)):
-                  if any(m2 > m1 for m1, m2 in zip(metrics1, metrics2)):
-                      print("Coverage improvement detected!")
-                  else:
-                      print("Coverage remains the same.")
-              else:
-                  print("Coverage deterioration detected!")
-                  exit(1)
+            if all(m2 >= m1 for m1, m2 in zip(metrics1, metrics2)):
+                if any(m2 > m1 for m1, m2 in zip(metrics1, metrics2)):
+                    print("Coverage improvement detected!")
+                else:
+                    print("Coverage remains the same.")
+            else:
+                print("Coverage deterioration detected!")
+                exit(1)
 
-          report1 = "./backend/coverage_report.txt"
-          report2 = "./backend/new_coverage/coverage_report.txt"
+        report1 = "./backend/coverage_report.txt"
+        report2 = "./backend/new_coverage/coverage_report.txt"
 
-          compare_coverage_reports(report1, report2)
+        compare_coverage_reports(report1, report2)
+        EOF
 
-        "
         # report1="./backend/coverage_report.txt"
         # report2="./backend/new_coverage/coverage_report.txt"
 
