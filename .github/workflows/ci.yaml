@@ -105,64 +105,26 @@ jobs:
         compare_coverage_reports(report1, report2)
         EOF
 
-        # report1="./backend/coverage_report.txt"
-        # report2="./backend/new_coverage/coverage_report.txt"
-
-        # get_coverage_metrics() {
-        #   grep -E "\| % Stmts \| % Branch \| % Funcs \| % Lines" "$1" | awk '{print $3, $5, $7, $9}'
-        # }
-
-        # compare_coverage_reports() {
-        #   metrics1=$(get_coverage_metrics "$1")
-        #   metrics2=$(get_coverage_metrics "$2")
-
-        #   echo "Metrics Report 1: $metrics1"
-        #   echo "Metrics Report 2: $metrics2"
-
-        #   # Convert metrics to arrays and remove '%' signs
-        #   metrics1_array=($(echo "$metrics1" | tr -d '%' | tr '|' ' ' | awk '{print $1, $2, $3, $4}'))
-        #   metrics2_array=($(echo "$metrics2" | tr -d '%' | tr '|' ' ' | awk '{print $1, $2, $3, $4}'))
-
-        #   improvements=("Statements" "Branches" "Functions" "Lines")
-
-        #   for i in {0..3}; do
-        #     metric1=${metrics1_array[$i]}
-        #     metric2=${metrics2_array[$i]}
-
-        #     if (( $(echo "$metric2 > $metric1" | bc -l) )); then
-        #       echo "${improvements[$i]} coverage improvement detected!"
-        #     elif (( $(echo "$metric2 == $metric1" | bc -l) )); then
-        #       echo "${improvements[$i]} coverage remains the same."
-        #     else
-        #       echo "${improvements[$i]} coverage deterioration detected!"
-        #       exit 1
-        #     fi
-        #   done
-        # }
-
-        # compare_coverage_reports "$report1" "$report2"
-
-  
     - name: Reset to current commit
       run: |
         echo $GITHUB_SHA
         git reset --hard $GITHUB_SHA
     
-    # - name: Check code formatting
-    #   run: npm run format:check
-    #   working-directory: ./backend
+    - name: Check code formatting
+      run: npm run format:check
+      working-directory: ./backend
 
-    # - name: Format code
-    #   if: failure()
-    #   run: npm run format
-    #   working-directory: ./backend
+    - name: Format code
+      if: failure()
+      run: npm run format
+      working-directory: ./backend
 
-    # - name: Commit formatted code
-    #   if: failure()
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-    #   run: |
-    #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
-    #     git config --local user.name "github-actions[bot]"
-    #     git commit -am "style: auto format code"
-    #     git push
+    - name: Commit formatted code
+      if: failure()
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -am "style: auto format code"
+        git push
