@@ -29,9 +29,9 @@ jobs:
 
     - name: Deploy to GKE
       run: |
-        kubectl apply -f deployment.yml
-        kubectl apply -f service.yml
-        kubectl apply -f ingress.yml
+        kubectl apply -f ./k8s/deploys.yaml
+        kubectl apply -f ./k8s/services.yaml
+        kubectl apply -f ./k8s/ingress.yaml
 
 
 
