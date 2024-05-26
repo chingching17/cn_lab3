@@ -109,22 +109,25 @@ jobs:
       run: |
         echo $GITHUB_SHA
         git reset --hard $GITHUB_SHA
-    
-    - name: Check code formatting
-      run: npm run format:check
-      working-directory: ./backend
 
-    - name: Format code
-      if: failure()
-      run: npm run format
-      working-directory: ./backend
+    - name: Set up Formatting tools
+      run: npm install --save-dev prettier
 
-    - name: Commit formatted code
-      if: failure()
+    - name: Check and format code
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git commit -am "style: auto format code"
-        git push
+        npx prettier --check "./backend/src/*.ts" "./frontend/src/*.ts" || (
+          echo "Unformat files are found. Files are formatting..."
+          npx prettier --write "./backend/src/*.ts" "./frontend/src/*.ts"
+          
+          echo "Formatting done. Committing changes..."
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add ./backend/src/*.ts ./frontend/src/*.ts
+          git add ./backend/package-lock.json ./backend/package.json
+          git commit -m "Formatted code with Prettier"
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" 
+          HEAD:feat/CI
+        )
+    

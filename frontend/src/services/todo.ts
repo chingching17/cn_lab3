@@ -13,7 +13,7 @@ export const getTodos = async (): Promise<AxiosResponse<TodoResponse>> => {
 export const addTodo = async (todoBody: ITodo): Promise<AxiosResponse<ITodo>> => {
   try {
     const newTodo = {
-      ...todoBody,
+      ...todoBody,   
       status: false
     }
     const todo = await axios.post(`/api/v1/todos`, newTodo)
