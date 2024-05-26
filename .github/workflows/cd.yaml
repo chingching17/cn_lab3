@@ -29,6 +29,12 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: ./backend
+
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./frontend
 
     - name: Build  & Push latest image - backend
       run: |
