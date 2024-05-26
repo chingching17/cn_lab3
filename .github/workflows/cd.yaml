@@ -27,6 +27,9 @@ jobs:
         chmod +x kubectl
         sudo mv kubectl /usr/local/bin/
 
+    - name: Install dependencies
+      run: npm install
+
     - name: Build  & Push latest image - backend
       run: |
         docker build -t ghcr.io/chingching17/backend:${GITHUB_SHA} .
