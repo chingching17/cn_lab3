@@ -39,13 +39,13 @@ jobs:
     - name: Build  & Push latest image - backend
       run: |
         docker build -t ghcr.io/chingching17/backend:${GITHUB_SHA} .
-        docker push ghcr.io/chingching17/backend:${GITHUB_SHA}
+        docker push "ghcr.io/chingching17/backend:${GITHUB_SHA}"
       working-directory: ./backend
 
     - name: Build  & Push latest image - frontend
       run: |
         docker build -t ghcr.io/chingching17/frontend:${GITHUB_SHA} .
-        docker push ghcr.io/chingching17/frontend:${GITHUB_SHA}
+        docker push "ghcr.io/chingching17/frontend:${GITHUB_SHA}"
       working-directory: ./frontend
 
     - name: Deploy to GKE
