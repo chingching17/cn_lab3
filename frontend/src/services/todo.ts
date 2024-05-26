@@ -10,7 +10,7 @@ export const getTodos = async (): Promise<AxiosResponse<TodoResponse>> => {
   }
 }
 
-export     const addTodo = async (todoBody: ITodo): Promise<AxiosResponse<ITodo>> => {
+export const addTodo = async (todoBody: ITodo): Promise<AxiosResponse<ITodo>> => {
   try {
     const newTodo = {
       ...todoBody,
