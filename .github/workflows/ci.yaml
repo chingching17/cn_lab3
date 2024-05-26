@@ -117,14 +117,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        npx prettier --check "./backend/src/*.ts" "./frontend/src/*.ts" || (
+        npx prettier --check "./backend/src/**/*.ts" "./frontend/src/**/*.ts" || (
           echo "Unformat files are found. Files are formatting..."
-          npx prettier --write "./backend/src/*.ts" "./frontend/src/*.ts"
+          npx prettier --write "./backend/src/**/*.ts" "./frontend/src/**/*.ts"
           
           echo "Formatting done. Committing changes..."
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git add ./backend/src/*.ts ./frontend/src/*.ts
+          git add ./backend/src/**/*.ts ./frontend/src/**/*.ts
           git add ./backend/package-lock.json ./backend/package.json
           git commit -m "Formatted code with Prettier"
           git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" 
